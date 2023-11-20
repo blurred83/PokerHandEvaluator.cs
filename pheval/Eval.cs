@@ -1,4 +1,8 @@
 ﻿
+using System.Collections.Generic;
+using System;
+using System.Linq;
+
 namespace pheval
 {
     public class Eval
@@ -78,7 +82,8 @@ namespace pheval
             return Hashtable5.noflush5[hash];
         }
 
-        public static int Eval5Ids(params byte[] ids) {
+        public static int Eval5Ids(params byte[] ids)
+        {
             return Eval5(ids[0], ids[1], ids[2], ids[3], ids[4]);
         }
 
@@ -86,8 +91,9 @@ namespace pheval
         {
             return Eval5(cards[0].id, cards[1].id, cards[2].id, cards[3].id, cards[4].id);
         }
-        
-        public static int Eval5String(string s) {
+
+        public static int Eval5String(string s)
+        {
             Card[] hand = Card.Cards(s);
             return Eval5(hand[0].id, hand[1].id, hand[2].id, hand[3].id, hand[4].id);
         }
@@ -147,7 +153,8 @@ namespace pheval
             return Eval6(cards[0].id, cards[1].id, cards[2].id, cards[3].id, cards[4].id, cards[5].id);
         }
 
-        public static int Eval6String(string s) {
+        public static int Eval6String(string s)
+        {
             Card[] hand = Card.Cards(s);
             return Eval6(hand[0].id, hand[1].id, hand[2].id, hand[3].id, hand[4].id, hand[5].id);
         }
@@ -210,9 +217,130 @@ namespace pheval
         }
 
 
-        public static int Eval7String(string s) {
+        public static int Eval7String(string s)
+        {
             Card[] hand = Card.Cards(s);
             return Eval7(hand[0].id, hand[1].id, hand[2].id, hand[3].id, hand[4].id, hand[5].id, hand[6].id);
+        }
+        /// <summary>
+        /// When given a list of less than five cards, return the best 5 card hand,
+        /// assuming the remaining cards are wild cards.
+        /// If a single card is passed, this is 5 of a kind (-13 for Aces, -12 for Kings, etc)
+        /// If two cards are passed, this is either 5 of a kind of they are paired, straight flush if they
+        /// are suited and can form a straight, and 4 of a kind otherwise.
+        /// </summary>
+        public static int GetBestRankForWildCardHand(List<Card> nonWildCards)
+        {
+            if (nonWildCards == null || nonWildCards.Count == 0 || nonWildCards.Count > 4)
+            {
+                throw new ArgumentException("Must pass between one and four cards");
+            }
+
+            if (nonWildCards.Count == 1 || nonWildCards.All(z => z.id / 4 == nonWildCards[0].id / 4))
+            {
+                return -1 * (nonWildCards[0].id / 4);
+            }
+
+            int partialHand = nonWildCards.Sum(z => z.id);
+
+            int bestRank = Int32.MaxValue;
+
+            for (byte a = 0; a < 48; a += 1)
+            {
+                for (byte b = (byte)(a + 1); b < 49; b += 1)
+                {
+                    for (byte c = (byte)(b + 1); c < 50; c += 1)
+                    {
+                        for (byte d = (byte)(c + 1); d < 51; d += 1)
+                        {
+                            for (byte e = (byte)(d + 1); e < 52; e += 1)
+                            {
+                                if (nonWildCards.All(z => z.id == a || z.id == b || z.id == c || z.id == d || z.id == e))
+                                {
+                                    var eval = Eval.Eval5Ids(a, b, c, d, e);
+                                    if (eval < bestRank)
+                                    {
+                                        bestRank = eval;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            return bestRank;
+        }
+
+        /// <summary>
+        /// For a seven card hand, say you have 4 non-wild cards and 3 wild cards.
+        /// The best 5 card hand you can make will combine 3 wild cards and 2 non-wild cards.
+        /// If you have 6 non-wild cards and 1 wild card, the best hand you can make
+        /// will combine 1 wild card and 4 non-wild cards.
+        /// If you have a 5 card hand
+        /// </summary>
+        /// <param name="nonWildCards">All non-wild cards involved in the hand, whether it's a five or seven card hand.</param>
+        /// <param name="numWildCards">The number of wild cards in the hand.</param>
+        /// <returns>The rank for the best possible hand with the supplied non-wild cards and count of wild cards.</returns>
+        public static int GetBestRankForWildCardHand(List<Card> nonWildCards, int numWildCards)
+        {
+            int sizeOfCombinations = 5 - numWildCards;
+
+            var combinations = GetUniqueCombinations(nonWildCards, sizeOfCombinations);
+
+            int bestRank = Int32.MaxValue;
+
+            foreach (var combo in combinations)
+            {
+                int currentRank = GetBestRankForWildCardHand(combo);
+                if (currentRank < bestRank)
+                {
+                    bestRank = currentRank;
+                }
+            }
+
+            return bestRank;
+        }
+
+        public static HashSet<List<T>> GetUniqueCombinations<T>(List<T> list, int length) where T : IComparable
+        {
+            var results = new HashSet<List<T>>(new ListComparer<T>());
+            Combine(list, length, 0, new List<T>(), results);
+            return results;
+        }
+
+        private static void Combine<T>(List<T> list, int length, int startIndex, List<T> current, HashSet<List<T>> results) where T : IComparable
+        {
+            if (length == 0)
+            {
+                results.Add(new List<T>(current));
+                return;
+            }
+
+            for (int i = startIndex; i <= list.Count - length; i++)
+            {
+                current.Add(list[i]);
+                Combine(list, length - 1, i + 1, current, results);
+                current.RemoveAt(current.Count - 1);
+            }
+        }
+
+        class ListComparer<T> : IEqualityComparer<List<T>> where T : IComparable
+        {
+            public bool Equals(List<T> x, List<T> y)
+            {
+                return x.OrderBy(a => a).SequenceEqual(y.OrderBy(a => a));
+            }
+
+            public int GetHashCode(List<T> obj)
+            {
+                int hash = 19;
+                foreach (var o in obj.OrderBy(a => a))
+                {
+                    hash = hash * 31 + o.GetHashCode();
+                }
+                return hash;
+            }
         }
     }
 }

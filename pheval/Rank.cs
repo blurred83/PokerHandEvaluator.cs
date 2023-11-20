@@ -14,6 +14,8 @@
  *  limitations under the License.
  */
 
+using System.Collections;
+
 namespace pheval
 {
     public class Rank
@@ -63,17 +65,49 @@ namespace pheval
 
         public static string DescribeRankCategory(int rank)
         {
+            if (rank < 0)
+                return "Five of a Kind";
             return category_description[(int)GetCategory(rank)];
         }
 
         public static string DescribeRank(int rank)
         {
-           return RankDesc.rank_description[rank,1];
+            switch (rank)
+            {
+                case -12:
+                    return "Five Aces";
+                case -11:
+                    return "Five Kings";
+                case -10:
+                    return "Five Queens";
+                case -9:
+                    return "Five Jacks";
+                case -8:
+                    return "Five Tens";
+                case -7:
+                    return "Five Nines";
+                case -6:
+                    return "Five Eights";
+                case -5:
+                    return "Five Sevens";
+                case -4:
+                    return "Five Sixes";
+                case -3:
+                    return "Five Fives";
+                case -2:
+                    return "Five Fours";
+                case -1:
+                    return "Five Treys";
+                case 0:
+                    return "Five Deuces";
+            }
+
+            return RankDesc.rank_description[rank, 1];
         }
 
         public static string DescribeRankShort(int rank)
         {
-            return RankDesc.rank_description[rank,0];
+            return RankDesc.rank_description[rank, 0];
         }
 
         public static bool IsFlush(int rank)

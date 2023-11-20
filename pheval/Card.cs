@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace pheval
 {
-    public class Card
+    public class Card : IComparable
     {
         static Dictionary<char, byte> rankMap = new Dictionary<char, byte>()
         {
@@ -67,6 +67,17 @@ namespace pheval
                 result += card.ToString();
             }
             return result;
+        }
+
+        public int CompareTo(object other)
+        {
+            if (other.GetType() != typeof(Card))
+            {
+                throw new ArgumentException("Object is not a Card");
+            }
+            Card otherCard = (Card)other;
+            if (this.id == otherCard.id) return 0;
+            return id.CompareTo(otherCard.id);
         }
     }
 }
