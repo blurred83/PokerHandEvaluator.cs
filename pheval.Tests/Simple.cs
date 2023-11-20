@@ -56,106 +56,106 @@ namespace pheval.Tests
         [Test]
         public void RankWithWilds()
         {
-            //{
-            //    List<Card> nonWildCards = new List<Card>()
-            //    {
-            //        new Card("Ac")
-            //    };
-            //    int rank = Eval.GetBestRankForWildCardHand(nonWildCards);
-            //    Console.WriteLine(Rank.DescribeRankCategory(rank));
-            //    Console.WriteLine(Rank.DescribeRank(rank));
-            //    Assert.AreEqual("Five of a Kind", Rank.DescribeRankCategory(rank));
-            //    Assert.AreEqual("Five Aces", Rank.DescribeRank(rank));
-            //}
-            //{
-            //    List<Card> nonWildCards = new List<Card>()
-            //    {
-            //        new Card("Ac"),
-            //        new Card("Ah"),
-            //        new Card("Ad")
-            //    };
-            //    int rank = Eval.GetBestRankForWildCardHand(nonWildCards);
-            //    Console.WriteLine(Rank.DescribeRankCategory(rank));
-            //    Console.WriteLine(Rank.DescribeRank(rank));
-            //    Assert.AreEqual("Five of a Kind", Rank.DescribeRankCategory(rank));
-            //    Assert.AreEqual("Five Aces", Rank.DescribeRank(rank));
-            //}
-            //{
-            //    List<Card> nonWildCards = new List<Card>()
-            //    {
-            //        new Card("Ac"),
-            //        new Card("4c")
-            //    };
-            //    int rank = Eval.GetBestRankForWildCardHand(nonWildCards);
-            //    Console.WriteLine(Rank.DescribeRankCategory(rank));
-            //    Console.WriteLine(Rank.DescribeRank(rank));
-            //    Assert.AreEqual("Straight Flush", Rank.DescribeRankCategory(rank));
-            //    Assert.AreEqual("Five-High Straight Flush", Rank.DescribeRank(rank));
-            //}
-            //{
-            //    List<Card> nonWildCards = new List<Card>()
-            //    {
-            //        new Card("Ac"),
-            //        new Card("Tc")
-            //    };
-            //    int rank = Eval.GetBestRankForWildCardHand(nonWildCards);
-            //    Console.WriteLine(Rank.DescribeRankCategory(rank));
-            //    Console.WriteLine(Rank.DescribeRank(rank));
-            //    Assert.AreEqual("Straight Flush", Rank.DescribeRankCategory(rank));
-            //    Assert.AreEqual("Royal Flush", Rank.DescribeRank(rank));
-            //}
-            //{
-            //    // Deuces are wild
-            //    // Ah Kh Qh 4c 3s 2h 2d
-            //    List<Card> nonWildCards = new List<Card>()
-            //    {
-            //        new Card("Ah"),
-            //        new Card("Kh"),
-            //        new Card("Qh"),
-            //        new Card("4c"),
-            //        new Card("3s")
-            //    };
-            //    int rank = Eval.GetBestRankForWildCardHand(nonWildCards, 2);
-            //    Console.WriteLine(Rank.DescribeRankCategory(rank));
-            //    Console.WriteLine(Rank.DescribeRank(rank));
-            //    Assert.AreEqual("Straight Flush", Rank.DescribeRankCategory(rank));
-            //    Assert.AreEqual("Royal Flush", Rank.DescribeRank(rank));
-            //}
-            //{
-            //    // Deuces are wild
-            //    // Ah Kh Qh 4c 3s 2h 2d
-            //    List<Card> nonWildCards = new List<Card>()
-            //    {
-            //        new Card("Ah"),
-            //        new Card("Kh"),
-            //        new Card("9h"),
-            //        new Card("4c"),
-            //        new Card("3s")
-            //    };
-            //    int rank = Eval.GetBestRankForWildCardHand(nonWildCards, 2);
-            //    Console.WriteLine(Rank.DescribeRankCategory(rank));
-            //    Console.WriteLine(Rank.DescribeRank(rank));
-            //    Assert.AreEqual("Flush", Rank.DescribeRankCategory(rank));
-            //    Assert.AreEqual("Ace-High Flush", Rank.DescribeRank(rank));
-            //}
-            //{
-            //    // Deuces are wild
-            //    // Ah Kh Qh 4c 3s 2h 2d
-            //    List<Card> nonWildCards = new List<Card>()
-            //    {
-            //        new Card("Ah"),
-            //        new Card("Kh"),
-            //        new Card("9h"),
-            //        new Card("4c"),
-            //        new Card("3s"),
-            //        new Card("2s")
-            //    };
-            //    int rank = Eval.GetBestRankForWildCardHand(nonWildCards, 1);
-            //    Console.WriteLine(Rank.DescribeRankCategory(rank));
-            //    Console.WriteLine(Rank.DescribeRank(rank));
-            //    Assert.AreEqual("Straight", Rank.DescribeRankCategory(rank));
-            //    Assert.AreEqual("Five-High Straight", Rank.DescribeRank(rank));
-            //}
+            {
+                List<Card> nonWildCards = new List<Card>()
+                {
+                    new Card("Ac")
+                };
+                int rank = Eval.GetBestRankForWildCardHand(nonWildCards);
+                Console.WriteLine(Rank.DescribeRankCategory(rank));
+                Console.WriteLine(Rank.DescribeRank(rank));
+                Assert.AreEqual("Five of a Kind", Rank.DescribeRankCategory(rank));
+                Assert.AreEqual("Five Aces", Rank.DescribeRank(rank));
+            }
+            {
+                List<Card> nonWildCards = new List<Card>()
+                {
+                    new Card("Ac"),
+                    new Card("Ah"),
+                    new Card("Ad")
+                };
+                int rank = Eval.GetBestRankForWildCardHand(nonWildCards);
+                Console.WriteLine(Rank.DescribeRankCategory(rank));
+                Console.WriteLine(Rank.DescribeRank(rank));
+                Assert.AreEqual("Five of a Kind", Rank.DescribeRankCategory(rank));
+                Assert.AreEqual("Five Aces", Rank.DescribeRank(rank));
+            }
+            {
+                List<Card> nonWildCards = new List<Card>()
+                {
+                    new Card("Ac"),
+                    new Card("4c")
+                };
+                int rank = Eval.GetBestRankForWildCardHand(nonWildCards);
+                Console.WriteLine(Rank.DescribeRankCategory(rank));
+                Console.WriteLine(Rank.DescribeRank(rank));
+                Assert.AreEqual("Straight Flush", Rank.DescribeRankCategory(rank));
+                Assert.AreEqual("Five-High Straight Flush", Rank.DescribeRank(rank));
+            }
+            {
+                List<Card> nonWildCards = new List<Card>()
+                {
+                    new Card("Ac"),
+                    new Card("Tc")
+                };
+                int rank = Eval.GetBestRankForWildCardHand(nonWildCards);
+                Console.WriteLine(Rank.DescribeRankCategory(rank));
+                Console.WriteLine(Rank.DescribeRank(rank));
+                Assert.AreEqual("Straight Flush", Rank.DescribeRankCategory(rank));
+                Assert.AreEqual("Royal Flush", Rank.DescribeRank(rank));
+            }
+            {
+                // Deuces are wild
+                // Ah Kh Qh 4c 3s 2h 2d
+                List<Card> nonWildCards = new List<Card>()
+                {
+                    new Card("Ah"),
+                    new Card("Kh"),
+                    new Card("Qh"),
+                    new Card("4c"),
+                    new Card("3s")
+                };
+                int rank = Eval.GetBestRankForWildCardHand(nonWildCards, 2);
+                Console.WriteLine(Rank.DescribeRankCategory(rank));
+                Console.WriteLine(Rank.DescribeRank(rank));
+                Assert.AreEqual("Straight Flush", Rank.DescribeRankCategory(rank));
+                Assert.AreEqual("Royal Flush", Rank.DescribeRank(rank));
+            }
+            {
+                // Deuces are wild
+                // Ah Kh Qh 4c 3s 2h 2d
+                List<Card> nonWildCards = new List<Card>()
+                {
+                    new Card("Ah"),
+                    new Card("Kh"),
+                    new Card("9h"),
+                    new Card("4c"),
+                    new Card("3s")
+                };
+                int rank = Eval.GetBestRankForWildCardHand(nonWildCards, 2);
+                Console.WriteLine(Rank.DescribeRankCategory(rank));
+                Console.WriteLine(Rank.DescribeRank(rank));
+                Assert.AreEqual("Flush", Rank.DescribeRankCategory(rank));
+                Assert.AreEqual("Ace-High Flush", Rank.DescribeRank(rank));
+            }
+            {
+                // Deuces are wild
+                // Ah Kh Qh 4c 3s 2h 2d
+                List<Card> nonWildCards = new List<Card>()
+                {
+                    new Card("Ah"),
+                    new Card("Kh"),
+                    new Card("9h"),
+                    new Card("4c"),
+                    new Card("3s"),
+                    new Card("2s")
+                };
+                int rank = Eval.GetBestRankForWildCardHand(nonWildCards, 1);
+                Console.WriteLine(Rank.DescribeRankCategory(rank));
+                Console.WriteLine(Rank.DescribeRank(rank));
+                Assert.AreEqual("Straight", Rank.DescribeRankCategory(rank));
+                Assert.AreEqual("Five-High Straight", Rank.DescribeRank(rank));
+            }
             {
                 // Deuces are wild
                 // Ah Kh Qh 4c 3s 2h 2d

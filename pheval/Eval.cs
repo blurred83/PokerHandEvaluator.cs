@@ -240,9 +240,7 @@ namespace pheval
             {
                 return -1 * (nonWildCards[0].id / 4);
             }
-
-            int partialHand = nonWildCards.Sum(z => z.id);
-
+            
             int bestRank = Int32.MaxValue;
 
             for (byte a = 0; a < 48; a += 1)
