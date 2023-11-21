@@ -240,32 +240,37 @@ namespace pheval
             {
                 return -1 * (nonWildCards[0].id / 4);
             }
-            
+
+            int wildCardCount = 5 - nonWildCards.Count;
             int bestRank = Int32.MaxValue;
 
-            for (byte a = 0; a < 48; a += 1)
+            // Create a list to hold the current combination
+            List<byte> combination = new List<byte>(nonWildCards.Select(card => card.id));
+
+            // Recursive method to fill the combination and evaluate it
+            void FillCombinationAndEvaluate(int start, int depth)
             {
-                for (byte b = (byte)(a + 1); b < 49; b += 1)
+                if (depth == wildCardCount)
                 {
-                    for (byte c = (byte)(b + 1); c < 50; c += 1)
+                    // Evaluate the combination
+                    int eval = Eval.Eval5Ids(combination.ToArray()); // Assuming a method to evaluate the hand
+                    bestRank = Math.Min(bestRank, eval);
+                    return;
+                }
+
+                for (int i = start; i < 52; i++)
+                {
+                    if (!combination.Contains((byte)i)) // Ensure no duplicate cards
                     {
-                        for (byte d = (byte)(c + 1); d < 51; d += 1)
-                        {
-                            for (byte e = (byte)(d + 1); e < 52; e += 1)
-                            {
-                                if (nonWildCards.All(z => z.id == a || z.id == b || z.id == c || z.id == d || z.id == e))
-                                {
-                                    var eval = Eval.Eval5Ids(a, b, c, d, e);
-                                    if (eval < bestRank)
-                                    {
-                                        bestRank = eval;
-                                    }
-                                }
-                            }
-                        }
+                        combination.Add((byte)i);
+                        FillCombinationAndEvaluate(i + 1, depth + 1);
+                        combination.RemoveAt(combination.Count - 1); // Backtrack
                     }
                 }
             }
+
+            // Start the recursive process
+            FillCombinationAndEvaluate(0, 0);
 
             return bestRank;
         }
