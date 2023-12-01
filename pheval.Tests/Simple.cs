@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using NUnit.Framework;
 using System.Linq;
-using System.Text;
 
 namespace pheval.Tests
 {
@@ -57,8 +56,6 @@ namespace pheval.Tests
         [Test]
         public void RankWithWilds()
         {
-             var bytes = Convert.FromBase64String("byZeOU50cU14OW9Q");
-             var decoded = System.Text.Encoding.UTF8.GetString(bytes);
             {
                 List<Card> nonWildCards = new List<Card>()
                 {
